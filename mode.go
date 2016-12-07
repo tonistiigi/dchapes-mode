@@ -38,7 +38,7 @@ that contains the following copyright notice:
 
 // Package mode provides a native Go implementation of BSD's setmode and getmode
 // which can be used to modify the mode bits of an os.FileMode value based on
-// a symbol value as described by the Unix chmod command.
+// a symbolic value as described by the Unix chmod command.
 //
 // For a full description of the mode string see chmod(1).
 // Some examples include:
