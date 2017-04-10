@@ -391,7 +391,7 @@ func (s Set) Apply(perm os.FileMode) os.FileMode {
 
 // Chmod is a convience routine that applies the changes in
 // Set to the named file. To avoid some race conditions,
-// it opens the file and uses os.File.Stat and and
+// it opens the file and uses os.File.Stat and
 // os.File.Chmod rather than os.Stat and os.Chmod if possible.
 func (s *Set) Chmod(name string) (old, new os.FileMode, err error) {
 	if f, err := os.Open(name); err == nil {

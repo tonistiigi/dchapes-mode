@@ -5,7 +5,7 @@ import "os"
 type modet uint16
 
 // Although many of these can be found in the syscall package
-// we don't use those to avoid the dependancy, add some more
+// we don't use those to avoid the dependency, add some more
 // values, use non-exported Go names, and use octal for better clarity.
 //
 // Note that Go only uses the the nine least significant bits as "Unix
