@@ -223,6 +223,9 @@ func ParseWithUmask(s string, umask int) (Set, error) {
 		var who modet
 	whoLoop:
 		for {
+			if len(s) == 0 {
+				return Set{}, ErrSyntax
+			}
 			switch s[0] {
 			case 'a':
 				who |= standardBits

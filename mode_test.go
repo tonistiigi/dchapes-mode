@@ -40,6 +40,11 @@ func TestParseError(t *testing.T) {
 		{"017777", ErrSyntax},
 		{"01000000000000000007777", nil},
 		{"9", nil},
+		{"z", ErrSyntax},
+		{"u", ErrSyntax},
+		{"g", ErrSyntax},
+		{"o", ErrSyntax},
+		{"go", ErrSyntax},
 	}
 	for _, tc := range tests {
 		//t.Log(tc)
@@ -49,6 +54,8 @@ func TestParseError(t *testing.T) {
 		} else if tc.err != nil && err != tc.err {
 			t.Errorf("Parse(%q) failed with %T:%[2]q, expected %T:%[3]q",
 				tc.input, err, tc.err)
+			//} else if tc.err == nil {
+			//	t.Logf("Parse(%q) failed with %T:%[2]q", tc.input, err)
 		}
 	}
 }

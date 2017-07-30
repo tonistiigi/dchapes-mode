@@ -1,3 +1,5 @@
 syntax: glob
 bench.out*
 cmode
+fuzz
+*-fuzz.zip
