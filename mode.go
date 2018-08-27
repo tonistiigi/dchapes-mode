@@ -71,7 +71,6 @@ that contains the following copyright notice:
 package mode
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"os"
@@ -128,7 +127,7 @@ func (c bitcmd) String() string {
 
 // The String method will likely only be useful when testing.
 func (s Set) String() string {
-	var buf bytes.Buffer
+	var buf strings.Builder
 	_, _ = buf.WriteString("set: {\n")
 	for _, c := range s.cmds {
 		_, _ = buf.WriteString(c.String())
@@ -177,7 +176,7 @@ func Parse(s string) (Set, error) {
 
 // TODO(dchapes): Only call syscall.Umask when abosolutely necessary and
 // provide a Set method to query if set is umask dependant (and perhaps
-// the umask that in effect when parsed).
+// the umask that was in effect when parsed).
 
 // ParseWithUmask is like Parse but uses the provided
 // file creation mask instead of calling syscall.Umask.
