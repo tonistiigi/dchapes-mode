@@ -304,11 +304,11 @@ func ParseWithUmask(s string, umask int) (Set, error) {
 						equalOpDone = true
 					}
 					m.addcmd(op, who, perm, mask)
-					perm = 0
+					//perm = 0
 				}
 				if permX != 0 {
 					m.addcmd('X', who, permX, mask)
-					permX = 0
+					//permX = 0
 				}
 				break permLoop
 			}
@@ -396,8 +396,8 @@ func (s Set) Apply(perm os.FileMode) os.FileMode {
 // it opens the file and uses os.File.Stat and
 // os.File.Chmod rather than os.Stat and os.Chmod if possible.
 func (s *Set) Chmod(name string) (old, new os.FileMode, err error) {
-	if f, err := os.Open(name); err == nil {
-		defer f.Close()
+	if f, err := os.Open(name); err == nil { // nolint: vetshadow
+		defer f.Close() // nolint: errcheck
 		return s.ChmodFile(f)
 	}
 	// Fallback to os.Stat and os.Chmod if we
