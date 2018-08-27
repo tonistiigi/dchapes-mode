@@ -8,7 +8,7 @@ import (
 )
 
 func TestValues(t *testing.T) {
-	tests := []struct {
+	tests := [...]struct {
 		name     string
 		value    uint
 		expected uint

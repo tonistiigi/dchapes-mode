@@ -26,7 +26,7 @@ func TestBits(t *testing.T) {
 	}
 
 	// All the possible extra bits that we move/manipulate during the conversion.
-	tests := []struct {
+	tests := [...]struct {
 		fm os.FileMode
 		m  modet
 	}{

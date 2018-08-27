@@ -30,7 +30,7 @@ func TestParseQuick(t *testing.T) {
 }
 
 func TestParseError(t *testing.T) {
-	tests := []struct {
+	tests := [...]struct {
 		input string
 		err   error
 	}{
@@ -64,7 +64,7 @@ func TestApply(t *testing.T) {
 	//savedmask := syscall.Umask(0)
 	//defer syscall.Umask(savedmask)
 
-	tests := []struct {
+	tests := [...]struct {
 		omode os.FileMode
 		nmode os.FileMode
 		umask int
@@ -213,7 +213,7 @@ func TestApply(t *testing.T) {
 	}
 }
 
-var marks = []struct{ name, modeChange string }{
+var marks = [...]struct{ name, modeChange string }{
 	{"Octal", "04741"},
 	{"Simple", "u+rw"},
 	{"Complicated", complicatedModeChange()},
