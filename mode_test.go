@@ -185,8 +185,8 @@ func TestApply(t *testing.T) {
 	//lastMask := savedmask
 	var lastMask int
 	for _, tc := range tests {
-		t.Logf("%#12o=%[1]v → %#12o=%[2]v via %q\tumask=%#o",
-			tc.omode, tc.nmode, tc.str, tc.umask)
+		//t.Logf("%#12o=%[1]v → %#12o=%[2]v via %q\tumask=%#o",
+		//	tc.omode, tc.nmode, tc.str, tc.umask)
 		set := lastSet
 		if tc.str != lastStr || tc.umask != lastMask {
 			//_ = syscall.Umask(tc.umask)

@@ -7,6 +7,8 @@ package mode
 //go:generate go-fuzz-build bitbucket.org/dchapes/mode
 // Then:
 //	go-fuzz -bin=mode-fuzz.zip -workdir=fuzz
+// or
+//	limits -S -w 1g -v 4g nice go-fuzz -bin=mode-fuzz.zip -workdir=fuzz -dumpcover
 
 // Fuzz is for use with go-fuzz, "github.com/dvyukov/go-fuzz"
 func Fuzz(data []byte) int {
