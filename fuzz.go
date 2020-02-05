@@ -4,7 +4,7 @@
 
 package mode
 
-//go:generate go-fuzz-build bitbucket.org/dchapes/mode
+//go:generate go-fuzz-build hg.sr.ht/~dchapes/mode
 // Then:
 //	go-fuzz -bin=mode-fuzz.zip -workdir=fuzz
 // or

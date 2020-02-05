@@ -10,8 +10,8 @@ import (
 	"testing"
 	"testing/quick"
 
-	//"bitbucket.org/dchapes/mode/cmode"
-	"bitbucket.org/dchapes/mode/cmode/_plain_c"
+	//"hg.sr.ht/~dchapes/mode/cmode"
+	cmode "hg.sr.ht/~dchapes/mode/cmode/plain_c"
 )
 
 func randomUnixPerm(rand *rand.Rand) int {
