@@ -224,7 +224,7 @@ func complicatedModeChange() string {
 	// be better to come up with a complicated but sensible string
 	// (i.e. something that might plausibly be seen in real use).
 	rng := rand.New(rand.NewSource(0))
-	v := mode(0).Generate(rng, 50)
+	v := mode("").Generate(rng, 50)
 	return string(v.Interface().(mode))
 }
 
