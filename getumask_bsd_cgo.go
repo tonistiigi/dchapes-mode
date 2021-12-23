@@ -1,4 +1,5 @@
 // Only tested on FreeBSD.
+//go:build cgo && (darwin || dragonfly || freebsd || netbsd || openbsd)
 // +build cgo
 // +build darwin dragonfly freebsd netbsd openbsd
 

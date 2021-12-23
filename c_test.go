@@ -1,3 +1,4 @@
+//go:build ctest
 // +build ctest
 
 package mode

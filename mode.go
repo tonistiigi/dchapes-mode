@@ -128,6 +128,7 @@ func (c bitcmd) String() string {
 // The String method will likely only be useful when testing.
 func (s Set) String() string {
 	var buf strings.Builder
+	buf.Grow(21*len(s.cmds) + 10)
 	_, _ = buf.WriteString("set: {\n")
 	for _, c := range s.cmds {
 		_, _ = buf.WriteString(c.String())

@@ -1,5 +1,7 @@
 // For use with go-fuzz, "github.com/dvyukov/go-fuzz"
+// See fuzz_test.go for Go1.18+ version.
 //
+//go:build gofuzz
 // +build gofuzz
 
 package mode
