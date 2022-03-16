@@ -27,14 +27,18 @@ From chmod(1):
 
 // Generate implements quick.Generator
 func (mode) Generate(rand *rand.Rand, size int) reflect.Value {
+	v := randMode(rand, size)
+	//log.Println("mode.Generate:", size, v)
+	return reflect.ValueOf(v)
+}
+
+func randMode(rand *rand.Rand, size int) mode {
 	n := int(rand.ExpFloat64()*float64(size)/5) + 1
 	clauses := make([]string, n)
 	for i := range clauses {
 		clauses[i] = randClause(rand)
 	}
-	v := mode(strings.Join(clauses, ","))
-	//log.Println("mode.Generate:", size, n, v)
-	return reflect.ValueOf(v)
+	return mode(strings.Join(clauses, ","))
 }
 
 func randClause(rand *rand.Rand) string {

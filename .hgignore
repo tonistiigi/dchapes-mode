@@ -1,5 +1,5 @@
 syntax: glob
-bench.out*
+bench*.out*
 cmode
-fuzz
-*-fuzz.zip
+coverage.out
+coverage.txt
