@@ -1,5 +1,5 @@
-//go:build ctest
-// +build ctest
+//go:build ignore && ctest
+// +build ignore,ctest
 
 package mode
 
