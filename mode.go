@@ -65,9 +65,9 @@ that contains the following copyright notice:
 //			group write bit.
 //
 // See Also:
+//
 //	setmode(3): https://www.freebsd.org/cgi/man.cgi?query=setmode&sektion=3
 //	chmod(1):   https://www.freebsd.org/cgi/man.cgi?query=chmod&sektion=1
-//
 package mode
 
 import (
@@ -76,8 +76,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"sync"
-	"syscall"
 )
 
 // Set is a set of changes to apply to an os.FileMode.
@@ -105,7 +103,7 @@ const (
 func (c bitcmd) String() string {
 	c2 := ""
 	if c.cmd2 != 0 {
-		c2 = fmt.Sprintf(" cmd2:")
+		c2 = " cmd2:"
 		if c.cmd2&cmd2Clear != 0 {
 			c2 += " CLR"
 		}
@@ -147,7 +145,7 @@ var ErrSyntax = errors.New("invalid syntax")
 // Apply is a convience to calling ParseWithUmask followed by Apply.
 // Since it needs to parse the mode value string on each call it
 // should only be used when mode value string will not be reapplied.
-func Apply(s string, perm os.FileMode, umask int) (os.FileMode, error) {
+func Apply(s string, perm os.FileMode, umask uint) (os.FileMode, error) {
 	set, err := ParseWithUmask(s, umask)
 	if err != nil {
 		return 0, err
@@ -160,17 +158,9 @@ func Apply(s string, perm os.FileMode, umask int) (os.FileMode, error) {
 // the set of bit operations representing the mode value
 // that can be applied to specific os.FileMode values.
 //
-// Because some of the symbolic values are relative to the
-// file creation mask, Parse may call syscall.Umask. If this
-// occurs, the file creation mask will be restored before Parse
-// returns. If the calling program changes the value of its file
-// creation mask after calling Parse, Parse must be called again
-// if the the Set is to modify future file modes correctly.
-//
-// The call to syscall.Umask can be avoided by using ParseWithUmask
-// and providing the current process file creation mask.
+// Same as ParseWithUmask(s, 0).
 func Parse(s string) (Set, error) {
-	return ParseWithUmask(s, -1)
+	return ParseWithUmask(s, 0)
 }
 
 // TODO(dchapes): A Set.Parse method that reuses existing memory.
@@ -181,7 +171,7 @@ func Parse(s string) (Set, error) {
 
 // ParseWithUmask is like Parse but uses the provided
 // file creation mask instead of calling syscall.Umask.
-func ParseWithUmask(s string, umask int) (Set, error) {
+func ParseWithUmask(s string, umask uint) (Set, error) {
 	var m Set
 	if s == "" {
 		return m, ErrSyntax
@@ -205,12 +195,7 @@ func ParseWithUmask(s string, umask int) (Set, error) {
 
 	// Get a copy of the mask for the permissions that are mask relative.
 	// Flip the bits, we want what's not set.
-	var mask modet
-	if umask >= 0 && int(modet(umask)) == umask {
-		mask = ^modet(umask)
-	} else {
-		mask = ^getumask()
-	}
+	var mask modet = ^modet(umask)
 
 	// Pre-allocate room for several commands.
 	//m.cmds = make([]bitcmd, 0, 8)
@@ -558,34 +543,4 @@ func (s *Set) compress() {
 	*/
 	s.cmds = s.cmds[:j]
 	//log.Println("after:", *m)
-}
-
-var umaskMu sync.Mutex
-
-func getumask() modet {
-	// XXX What about other Go-routines mucking with
-	// umask or just creating files while we run?
-	//
-	// The C code first tries requesting the umask without
-	// temporily modifying it. With BSD this is ~6×
-	// slower in Go as it requires using syscall.SysctlRaw
-	// with the overhead and allocations that requires.
-
-	// First try requesting the umask without temporarily modifying it.
-	if umask, err := osGetUmask(); err == nil {
-		return umask
-	}
-
-	// Further, if the C code does call umask(2), it tries to
-	// protect signal handlers that might be opening files by
-	// blocking signals during the pair of umask system calls.
-
-	// Use a non-zero temporary umask so at least if another
-	// Go routine creates a file using it the file doesn't
-	// give *extra* unexpected permissions to others.
-	umaskMu.Lock()
-	umask := syscall.Umask(0077)
-	syscall.Umask(umask)
-	umaskMu.Unlock()
-	return modet(umask)
 }
