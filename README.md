@@ -1,6 +1,8 @@
 Mode
 ========
 
+This is a fork of [hg.sr.ht/~dchapes/mode](https://hg.sr.ht/~dchapes/mode) with minimal patches and basic CI.
+
 [Mode](https://hg.sr.ht/~dchapes/mode)
 is a [Go](http://golang.org/) package that provides
 a native Go implementation of BSD's
