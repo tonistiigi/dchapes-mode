@@ -1,0 +1,77 @@
+name: ci
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DESTDIR: ./bin
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 */6 * *' # every 6 days
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - build
+          - cross
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      -
+        name: Run
+        uses: docker/bake-action@v5
+        with:
+          targets: ${{ matrix.target }}
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go:
+          - "1.23"
+          - "1.22"
+          - "1.21"
+    env:
+      GO_VERSION: ${{ matrix.go }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      -
+        name: Test
+        uses: docker/bake-action@v5
+        with:
+          targets: test
+
+  test-os:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - windows-latest
+        go:
+          - "1.23"
+          - "1.22"
+          - "1.21"
+    steps:
+      - uses: actions/checkout@v4
+      -
+        name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+      -
+        name: Test
+        run: |
+          go test -v ./...
