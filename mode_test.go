@@ -67,7 +67,7 @@ func TestApply(t *testing.T) {
 	tests := [...]struct {
 		omode os.FileMode
 		nmode os.FileMode
-		umask int
+		umask uint
 		str   string
 	}{
 		{0777, 0000, 0000, "="},
@@ -183,7 +183,7 @@ func TestApply(t *testing.T) {
 	var lastSet Set
 	var lastStr string
 	//lastMask := savedmask
-	var lastMask int
+	var lastMask uint
 	for _, tc := range tests {
 		//t.Logf("%#12o=%[1]v → %#12o=%[2]v via %q\tumask=%#o",
 		//	tc.omode, tc.nmode, tc.str, tc.umask)
@@ -258,13 +258,6 @@ func BenchmarkApply(b *testing.B) {
 				_ = set.Apply(os.ModeDir | os.ModeSetuid | 0421)
 			}
 		})
-	}
-}
-
-func BenchmarkGetUmask(b *testing.B) {
-	b.ReportAllocs()
-	for i := 0; i < b.N; i++ {
-		_ = getumask()
 	}
 }
 
