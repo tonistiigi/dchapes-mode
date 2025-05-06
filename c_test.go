@@ -63,7 +63,7 @@ func TestCQuick(t *testing.T) {
 				args[1] = reflect.ValueOf(mode(ps))
 			} else {
 				args[1] = mode("").Generate(rand, 50)
-				// C's setmode is buggy in reguarding 'X' in some cases;
+				// C's setmode is buggy in regarding 'X' in some cases;
 				// e.g. 0111, -uX should ignore X and return 0011 but
 				// C returns 0111
 				/*
