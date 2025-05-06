@@ -271,7 +271,7 @@ func BenchmarkApply(b *testing.B) {
 }
 
 // The String() methods are only useful for debugging so
-// benchmarking them is kinda silly; mostly done for completness.
+// benchmarking them is kinda silly; mostly done for completeness.
 
 func BenchmarkString(b *testing.B) {
 	for _, bm := range marks {

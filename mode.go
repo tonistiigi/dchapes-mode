@@ -142,7 +142,7 @@ var ErrSyntax = errors.New("invalid syntax")
 // Apply changes the provided os.FileMode based on the given umask and
 // absolute or symbolic mode value.
 //
-// Apply is a convience to calling ParseWithUmask followed by Apply.
+// Apply is a convenience to calling ParseWithUmask followed by Apply.
 // Since it needs to parse the mode value string on each call it
 // should only be used when mode value string will not be reapplied.
 func Apply(s string, perm os.FileMode, umask uint) (os.FileMode, error) {
@@ -166,7 +166,7 @@ func Parse(s string) (Set, error) {
 // TODO(dchapes): A Set.Parse method that reuses existing memory.
 
 // TODO(dchapes): Only call syscall.Umask when abosolutely necessary and
-// provide a Set method to query if set is umask dependant (and perhaps
+// provide a Set method to query if set is umask dependent (and perhaps
 // the umask that was in effect when parsed).
 
 // ParseWithUmask is like Parse but uses the provided
@@ -286,7 +286,7 @@ func ParseWithUmask(s string, umask uint) (Set, error) {
 				}
 				m.addcmd(b, who, modet(op), mask)
 			default:
-				// Add any permissions that we haven't alread done.
+				// Add any permissions that we haven't already done.
 				if perm != 0 || op == '=' && !equalOpDone {
 					if op == '=' {
 						equalOpDone = true
@@ -379,7 +379,7 @@ func (s Set) Apply(perm os.FileMode) os.FileMode {
 	return bitsToFileMode(perm, newmode)
 }
 
-// Chmod is a convience routine that applies the changes in
+// Chmod is a convenience routine that applies the changes in
 // Set to the named file. To avoid some race conditions,
 // it opens the file and uses os.File.Stat and
 // os.File.Chmod rather than os.Stat and os.Chmod if possible.
@@ -403,7 +403,7 @@ func (s *Set) Chmod(name string) (old, new os.FileMode, err error) {
 
 }
 
-// ChmodFile is a convience routine that applies
+// ChmodFile is a convenience routine that applies
 // the changes in Set to the open file f.
 func (s *Set) ChmodFile(f *os.File) (old, new os.FileMode, err error) {
 	fi, err := f.Stat()

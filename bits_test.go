@@ -58,7 +58,7 @@ func TestBits(t *testing.T) {
 
 		// With each set of extra bits we move/manimuplate,
 		// exhaustively check every possible Unix
-		// permision combination (without any
+		// permission combination (without any
 		// of the "extra" bits we don't touch).
 		for bits := 0; bits <= 0777; bits++ {
 			check(tc.fm|os.FileMode(bits), tc.m|modet(bits))
@@ -75,7 +75,7 @@ func TestBits(t *testing.T) {
 	t.Log("checked", cnt, "conversions")
 }
 
-// Kinda silly to benchmark these; mostly done for completness.
+// Kinda silly to benchmark these; mostly done for completeness.
 
 func BenchmarkFileModeToBits(b *testing.B) {
 	for i := 0; i < b.N; i++ {
